@@ -24,6 +24,7 @@
     measurementId: import.meta.env.VITE_MID,
   };
   if (getApps().length == 0) {
+<<<<<<< HEAD
     // const app = initializeApp(firebaseConfig);
     // const auth = getAuth(app);
     // let email = "b@gmail.com";
@@ -35,6 +36,19 @@
     //   .catch((err) => {
     //     console.log(err);
     //   });
+=======
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    let email = "c@gmail.com";
+    let pass = "123456";
+    createUserWithEmailAndPassword(auth, email, pass)
+      .then((userCred) => {
+        console.log(userCred);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+>>>>>>> d0984eb (f)
   } else {
     undefined;
   }
