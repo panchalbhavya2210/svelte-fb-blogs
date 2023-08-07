@@ -4,6 +4,7 @@
 
 <main>
   <a href="/Auth">Go Auth</a>
+  <h1>Hello</h1>
 </main>
 
 <!-- <script>
