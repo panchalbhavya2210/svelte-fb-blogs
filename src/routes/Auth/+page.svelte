@@ -1,6 +1,7 @@
 <script>
   import { initializeApp, getApps } from "firebase/app";
   import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+  import "../global.css";
 
   // let disLoader = true;
 
