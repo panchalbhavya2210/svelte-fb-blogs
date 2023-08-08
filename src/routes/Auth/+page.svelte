@@ -9,10 +9,11 @@
   //   disLoader.style.display = "none";
   // }
   let state;
+  let alertState;
+  let successState;
 
   function signUp() {
-    state = !state;
-    btn.disabled = true;
+    authUser();
   }
 
   const firebaseConfig = {
@@ -24,20 +25,35 @@
     appId: import.meta.env.VITE_APID,
     measurementId: import.meta.env.VITE_MID,
   };
-  if (getApps().length == 0) {
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    let email = "c@gmail.com";
-    let pass = "123456";
+  // if (getApps().length == 0) {
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  let email = "11@gmail.com";
+  let pass = "123456";
+
+  function authUser() {
+    state = !state;
+    console.log(state);
+    btn.disabled = true;
     createUserWithEmailAndPassword(auth, email, pass)
       .then((userCred) => {
-        console.log(userCred);
+        //Showing Success Of Account Creation
+        state = !state;
+        successState = !successState;
+        setTimeout(() => {
+          successState = !successState;
+        }, 5000);
       })
       .catch((err) => {
-        console.log(err);
+        //Showing Error
+        state = !state;
+        alertState = !alertState;
+        setTimeout(() => {
+          alertState = !alertState;
+        }, 3000);
+        console.log(state);
+        btn.disabled = false;
       });
-  } else {
-    undefined;
   }
 </script>
 
@@ -46,13 +62,13 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img
         class="mx-auto h-10 w-auto"
-        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+        src="https://raw.githubusercontent.com/panchalbhavya2210/svelte-fb-blogs/ae19ecb2d4241abb88ca729b3f600665b04ea392/static/logo.svg"
         alt="Your Company"
       />
       <h2
         class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
       >
-        Sign up to join <span class="text-indigo-600">Blogging Bytes</span>
+        Sign up to join <span class="text-indigo-600">Byte Blogs.</span>
       </h2>
     </div>
 
@@ -148,6 +164,25 @@
           >
         </div>
       </form>
+      <!-- Success Alert -->
+      <div
+        class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-white shadow-lg dark:text-green-700 fixed transition {successState
+          ? 'translate-y-3 opacity-100'
+          : 'translate-y-36 opacity-0'}"
+        role="alert"
+      >
+        <span class="font-medium">Success!</span> Your account is created.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+      <!-- Error Alert -->
+      <div
+        class="p-5 mb-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-white shadow-lg dark:text-red-700 fixed transition {alertState
+          ? 'translate-y-3 opacity-100'
+          : 'translate-y-20 opacity-0'}"
+        role="alert"
+      >
+        <span class="font-medium">Oops!</span> Change a few things up and try submitting
+        again.
+      </div>
 
       <p class="mt-10 text-center text-sm text-gray-500">
         Already have an account?
