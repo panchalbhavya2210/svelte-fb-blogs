@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   let state;
   let stateNav;
-
+  export let url;
   function stateChanger() {
     state = !state;
   }
@@ -11,7 +11,7 @@
   }
 </script>
 
-<nav class="backdrop-blur-sm fixed w-screen z-50">
+<nav class="bg-slate-200 fixed w-screen z-50">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -45,11 +45,7 @@
               d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
             />
           </svg>
-          <!--
-              Icon when menu is open.
-  
-              Menu open: "block", Menu closed: "hidden"
-            -->
+
           <svg
             class="h-6 w-6 {stateNav ? 'block' : 'hidden'}"
             fill="none"
@@ -80,26 +76,24 @@
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
-            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <a
-              href="a.com"
-              class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-              aria-current="page">Dashboard</a
+              href="/"
+              class=" text-black hover:bg-indigo-200 rounded-md px-3 py-2 text-sm font-medium aria"
+              aria-current={$page.url.pathname === "/" ? "page" : undefined}
+              >Home</a
             >
             <a
-              href="a.com"
-              class="text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-              >Team</a
+              href="/Auth"
+              aria-current={$page.url.pathname === "/Auth" ? "page" : undefined}
+              class="text-black hover:bg-indigo-200 rounded-md px-3 py-2 text-sm font-medium aria"
+              >Sign Up</a
             >
             <a
-              href="a.com"
-              class="text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-              >Projects</a
-            >
-            <a
-              href="a.com"
-              class="text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-              >Calendar</a
+              href="/Login"
+              class="text-black hover:bg-indigo-200 rounded-md px-3 py-2 text-sm font-medium aria"
+              aria-current={$page.url.pathname === "/Login"
+                ? "page"
+                : undefined}>Log In</a
             >
           </div>
         </div>
@@ -120,11 +114,7 @@
             >
               <span class="absolute -inset-1.5" />
               <span class="sr-only">Open user menu</span>
-              <img
-                class="h-8 w-8 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
+              <img class="h-12 w-12 rounded-full" src={url} alt="" />
             </button>
           </div>
 
@@ -139,22 +129,15 @@
           >
             <!-- Active: "bg-gray-100", Not Active: "" -->
             <a
-              href="a.com"
-              class="block px-4 py-2 text-sm text-gray-700"
+              href="/myprofile"
+              class="block px-4 py-2 text-sm text-gray-700 aria hover:bg-indigo-200"
               role="menuitem"
               tabindex="-1"
               id="user-menu-item-0">Your Profile</a
             >
             <a
-              href="a.com"
-              class="block px-4 py-2 text-sm text-gray-700"
-              role="menuitem"
-              tabindex="-1"
-              id="user-menu-item-1">Settings</a
-            >
-            <a
-              href="a.com"
-              class="block px-4 py-2 text-sm text-gray-700"
+              href=""
+              class="block px-4 py-2 text-sm text-gray-700 aria hover:bg-indigo-200"
               role="menuitem"
               tabindex="-1"
               id="user-menu-item-2">Sign out</a
@@ -175,19 +158,21 @@
     <div class="space-y-1 px-2 pb-3 pt-2">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
       <a
-        href="a.com"
-        class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
-        aria-current="page">Dashboard</a
+        href="/"
+        class="  block rounded-md px-3 py-2 text-base font-medium aria"
+        aria-current={$page.url.pathname === "/" ? "page" : undefined}>Home</a
       >
       <a
-        href="a.com"
-        class="text-black hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-        >Team</a
+        href="/Auth"
+        aria-current={$page.url.pathname === "/Auth" ? "page" : undefined}
+        class="text-black hover:bg-indigo-200 block rounded-md px-3 py-2 text-base font-medium aria"
+        >Sign Up</a
       >
       <a
-        href="a.com"
-        class="text-black hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-        >Projects</a
+        href="/Login"
+        class="text-black hover:bg-indigo-200 block rounded-md px-3 py-2 text-base font-medium aria"
+        aria-current={$page.url.pathname === "/Login" ? "page" : undefined}
+        >Login</a
       >
       <a
         href="a.com"
@@ -197,3 +182,12 @@
     </div>
   </div>
 </nav>
+
+<style>
+  .aria[aria-current="page"] {
+    color: #fff;
+    background-color: #4f46e5;
+    transition: 0.5s;
+    border-radius: 100px;
+  }
+</style>

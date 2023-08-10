@@ -2,10 +2,7 @@
   import "./global.css";
 </script>
 
-<main class="relative top-16 -z-10">
-  <a href="/Auth">Go Auth</a>
-  <h1>Hello</h1>
-</main>
+<main class="relative top-16 -z-10" />
 
 <!-- <script>
   let enableFoo;

@@ -1,13 +1,20 @@
 <script>
+  // @ts-nocheck
   import { initializeApp, getApps } from "firebase/app";
   import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+  import {
+    getDatabase,
+    ref,
+    set,
+    get,
+    child,
+    update,
+    push,
+    onValue,
+  } from "firebase/database";
   import "../global.css";
+  import Header from "/src/header.svelte";
 
-  // let disLoader = true;
-
-  // if (disLoader == true) {
-  //   disLoader.style.display = "none";
-  // }
   let state;
   let alertState;
   let successState;
@@ -32,20 +39,50 @@
   // if (getApps().length == 0) {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const getDb = getDatabase(app);
 
-  function authUser(e) {
+  function getRandomColorForUrl() {
+    var letters = "BCDEF".split("");
+    var color = "";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * letters.length)];
+    }
+    return color;
+  }
+
+  var urlColor = getRandomColorForUrl();
+
+  function authUser() {
     // e.preventDefault();
     state = !state;
     console.log(state);
     btn.disabled = true;
     createUserWithEmailAndPassword(auth, bindEmailVal, bindEmailPass)
       .then((userCred) => {
+        let imageUrl = `https://ui-avatars.com/api/?background=${urlColor}&color=000&name=${bindEmailUser}`;
+
+        let userId = auth.currentUser.uid;
+        set(ref(getDb, userId), {
+          userName: bindEmailUser,
+          userEmail: bindEmailVal,
+          userUrl: imageUrl,
+        });
         //Showing Success Of Account Creation
         state = !state;
         successState = !successState;
         setTimeout(() => {
           successState = !successState;
         }, 5000);
+
+        const dataBaseReader = ref(getDb, userId);
+        onValue(dataBaseReader, (snapshot) => {
+          const data = snapshot.val();
+
+          console.log(data.userUrl);
+          let dataUser = data.userUrl;
+          compLoad(dataUser);
+          btn.disabled = false;
+        });
       })
       .catch((err) => {
         //Showing Error
@@ -59,7 +96,21 @@
         btn.disabled = false;
       });
   }
+
+  let component;
+  let props;
+
+  function compLoad(dataUser) {
+    component = Header;
+    props = { url: dataUser };
+  }
+
+  // function readDatabase() {
+
+  // }
 </script>
+
+<svelte:component this={component} {...props} />
 
 <main class="relative top-10">
   <div class="flex min-h flex-col justify-center px-6 py-12 lg:px-8">
