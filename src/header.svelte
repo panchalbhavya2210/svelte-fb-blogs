@@ -70,11 +70,13 @@
         class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
       >
         <div class="flex flex-shrink-0 items-center">
-          <img
-            class="h-8 w-auto"
-            src="https://raw.githubusercontent.com/panchalbhavya2210/svelte-fb-blogs/ae19ecb2d4241abb88ca729b3f600665b04ea392/static/logo.svg"
-            alt="Your Company"
-          />
+          <a href="/home" target="_blank">
+            <img
+              class="h-8 w-auto"
+              src="https://raw.githubusercontent.com/panchalbhavya2210/svelte-fb-blogs/ae19ecb2d4241abb88ca729b3f600665b04ea392/static/logo.svg"
+              alt="Your Company"
+            /></a
+          >
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
@@ -126,16 +128,6 @@
             </button>
           </div>
 
-          <!--
-              Dropdown menu, show/hide based on menu state.
-  
-              Entering: "transition ease-out duration-100"
-                From: "transform opacity-0 scale-95"
-                To: "transform opacity-100 scale-100"
-              Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            -->
           <div
             class="{state
               ? 'scale-100'

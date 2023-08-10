@@ -47,7 +47,7 @@
   }
 </script>
 
-<main class="relative top-16">
+<main class="relative top-10">
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img
@@ -62,7 +62,7 @@
       </h2>
     </div>
 
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm overflow-hidden">
       <form class="space-y-6" action="/home">
         <div>
           <label
@@ -144,7 +144,7 @@
       <div class="relative">
         <div
           class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-green-100 shadow-lg dark:text-green-900 absolute transition {successState
-            ? 'translate-y-3 opacity-100'
+            ? 'translate-y-0 opacity-100'
             : 'translate-y-36 opacity-0'}"
           role="alert"
         >
@@ -155,7 +155,7 @@
       <div class="relative">
         <div
           class="p-5 mb-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-red-100 shadow-lg dark:text-red-900 absolute transition {alertState
-            ? 'translate-y-3 opacity-100'
+            ? 'translate-y-0 opacity-100'
             : 'translate-y-20 opacity-0'}"
           role="alert"
         >
