@@ -1,19 +1,9 @@
 <script>
   // @ts-nocheck
-  import { initializeApp, getApps } from "firebase/app";
+  import { initializeApp } from "firebase/app";
   import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-  import {
-    getDatabase,
-    ref,
-    set,
-    get,
-    child,
-    update,
-    push,
-    onValue,
-  } from "firebase/database";
+  import { getDatabase, ref, set, onValue } from "firebase/database";
   import "../global.css";
-  import Header from "/src/header.svelte";
 
   let state;
   let alertState;
@@ -58,7 +48,7 @@
     console.log(state);
     btn.disabled = true;
     createUserWithEmailAndPassword(auth, bindEmailVal, bindEmailPass)
-      .then((userCred) => {
+      .then(() => {
         let imageUrl = `https://ui-avatars.com/api/?background=${urlColor}&color=000&name=${bindEmailUser}`;
 
         let userId = auth.currentUser.uid;
@@ -96,21 +86,7 @@
         btn.disabled = false;
       });
   }
-
-  let component;
-  let props;
-
-  function compLoad(dataUser) {
-    component = Header;
-    props = { url: dataUser };
-  }
-
-  // function readDatabase() {
-
-  // }
 </script>
-
-<svelte:component this={component} {...props} />
 
 <main class="relative top-10">
   <div class="flex min-h flex-col justify-center px-6 py-12 lg:px-8">
@@ -219,7 +195,7 @@
       <div class="relative">
         <div
           class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-green-100 shadow-lg dark:text-green-900 absolute transition {successState
-            ? 'translate-y-3 opacity-100'
+            ? 'translate-y-0 opacity-100'
             : 'translate-y-36 opacity-0'}"
           role="alert"
         >
@@ -230,7 +206,7 @@
       <div class="relative">
         <div
           class="p-5 mb-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-red-100 shadow-lg dark:text-red-900 absolute transition {alertState
-            ? 'translate-y-3 opacity-100'
+            ? 'translate-y-0 opacity-100'
             : 'translate-y-20 opacity-0'}"
           role="alert"
         >

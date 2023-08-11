@@ -1,8 +1,39 @@
 <script>
   import { page } from "$app/stores";
+  import { initializeApp } from "firebase/app";
+  import { getAuth } from "firebase/auth";
+
+  import { onMount } from "svelte";
+  import { getDatabase, ref, get } from "firebase/database";
+
+  const firebaseConfig = {
+    apiKey: import.meta.env.VITE_API_KEY,
+    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_PRJ_ID,
+    storageBucket: import.meta.env.VITE_STG_BKT,
+    messagingSenderId: import.meta.env.VITE_MSI,
+    appId: import.meta.env.VITE_APID,
+    measurementId: import.meta.env.VITE_MID,
+  };
+  // if (getApps().length == 0) {
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const getDb = getDatabase(app);
+
+  let profileImage;
+  function readDb() {
+    let userId = auth.currentUser.uid;
+    get(ref(getDb, userId)).then((data) => {
+      profileImage = data.val().userUrl;
+    });
+  }
+  onMount(() => {
+    setTimeout(() => {
+      readDb();
+    }, 1900);
+  });
   let state;
   let stateNav;
-  export let url;
   function stateChanger() {
     state = !state;
   }
@@ -114,7 +145,7 @@
             >
               <span class="absolute -inset-1.5" />
               <span class="sr-only">Open user menu</span>
-              <img class="h-12 w-12 rounded-full" src={url} alt="" />
+              <img class="h-12 w-12 rounded-full" src={profileImage} alt="" />
             </button>
           </div>
 
@@ -136,7 +167,7 @@
               id="user-menu-item-0">Your Profile</a
             >
             <a
-              href=""
+              href="a.c"
               class="block px-4 py-2 text-sm text-gray-700 aria hover:bg-indigo-200"
               role="menuitem"
               tabindex="-1"

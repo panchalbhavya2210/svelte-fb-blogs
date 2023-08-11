@@ -1,8 +1,11 @@
 <script>
+  import Blogs from "./blogs.svelte";
   import "./global.css";
 </script>
 
-<main class="relative top-16 -z-10" />
+<main class="relative top-16 -z-10">
+  <Blogs />
+</main>
 
 <!-- <script>
   let enableFoo;
