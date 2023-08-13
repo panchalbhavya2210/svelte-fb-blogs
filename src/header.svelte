@@ -129,7 +129,7 @@
             <a
               href="/Creator"
               class="text-black hover:bg-indigo-200 rounded-md px-3 py-2 text-sm font-medium aria"
-              aria-current={$page.url.pathname === "/Login"
+              aria-current={$page.url.pathname === "/Creator"
                 ? "page"
                 : undefined}>Create A Blog</a
             >
@@ -213,9 +213,10 @@
         >Login</a
       >
       <a
-        href="a.com"
-        class="text-black hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-        >Calendar</a
+        href="/Creator"
+        class="text-black hover:bg-indigo-200 block rounded-md px-3 py-2 text-base font-medium aria"
+        aria-current={$page.url.pathname === "/Creator" ? "page" : undefined}
+        >Create Blog</a
       >
     </div>
   </div>

@@ -3,6 +3,12 @@
   import { getAuth } from "firebase/auth";
   import { getDatabase, get, ref } from "firebase/database";
   import {
+    getStorage,
+    ref as sRef,
+    uploadBytesResumable,
+    getDownloadURL,
+  } from "firebase/storage";
+  import {
     getFirestore,
     addDoc,
     doc,
@@ -39,29 +45,54 @@
   const auth = getAuth(app);
   const getDb = getDatabase(app);
   const authFirestore = getFirestore(app);
+  const storageFile = getStorage(app);
 
   let blog_category;
   let blogTitle;
   let profileImage;
   let profileName;
   let blogSummary;
-  function readDb() {
-    let userId = auth.currentUser.uid;
-    get(ref(getDb, userId)).then((data) => {
-      profileImage = data.val().userUrl;
-      profileName = data.val().userName;
-      console.log(profileImage);
-      addDoc(collection(authFirestore, "blogs"), {
-        owner_pp: profileImage,
-        blog_categ: blog_category,
-        blog_date: fullFormation,
-        blog_details: blogSummary,
-        blog_img: "https://picsum.photos/200",
-        blog_owner: profileName,
-        blog_title: blogTitle,
-      });
-    });
+  let files;
+  let blogImageUrl;
+
+  let progress = 10;
+
+  function runFileUpload() {
+    const stRef = sRef(storageFile, `images/${files[0].name}` + files[0]);
+    const uploadTask = uploadBytesResumable(stRef, files[0]);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        switch (snapshot.state) {
+          case "paused":
+            break;
+          case "running":
+            break;
+        }
+      },
+      (error) => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          let userId = auth.currentUser.uid;
+          get(ref(getDb, userId)).then((data) => {
+            profileImage = data.val().userUrl;
+            profileName = data.val().userName;
+            addDoc(collection(authFirestore, "blogs"), {
+              owner_pp: profileImage,
+              blog_categ: blog_category,
+              blog_date: fullFormation,
+              blog_details: blogSummary,
+              blog_img: downloadURL,
+              blog_owner: profileName,
+              blog_title: blogTitle,
+            });
+          });
+        });
+      }
+    );
   }
+  function readDb() {}
 </script>
 
 <main class="relative top-10">
@@ -130,6 +161,7 @@
               class="file:bg-indigo-500 file:text-white file:border-none file:rounded-sm file:p-1 mt-3 mb-3 bg-slate-100 w-96"
               name=""
               id="file"
+              bind:files
             />
           </div>
         </div>
@@ -138,7 +170,7 @@
           <button
             type="submit"
             id="btn"
-            on:click={readDb}
+            on:click={runFileUpload}
             class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             <svg
@@ -160,7 +192,7 @@
               />
             </svg>
             <span class="sr-only">Loading...</span>
-            Oi
+            Submit Blog
           </button>
         </div>
       </form>
