@@ -29,27 +29,27 @@
   const authFirestore = getFirestore(app);
 
   console.log(authFirestore);
-  // onMount(() => {
-  //   setTimeout(() => {
-  //     const uid = auth.currentUser.uid;
-  //     const refFirestore = collection(authFirestore, "blogs");
+  onMount(() => {
+    setTimeout(() => {
+      const uid = auth.currentUser.uid;
+      const refFirestore = collection(authFirestore, "blogs");
 
-  //     getDocs(refFirestore).then((snapshot) => {
-  //       snapshot.docs.forEach((doc) => {
-  //         blogs.push({ ...doc.data(), id: doc.id });
-  //       });
-  //       console.log(blogs);
-  //       for (let i = 0; i < blogs.length; i++) {
-  //         userImage = blogs[i].owner_pp;
-  //         blogCategory = blogs[i].blog_categ;
-  //         blogDate = blogs[i].blog_date;
-  //         blogDetail = blogs[i].blog_details;
-  //         userName = blogs[i].blog_owner;
-  //         blogTitle = blogs[i].blog_title;
-  //       }
-  //     });
-  //   }, 1500);
-  // });
+      getDocs(refFirestore).then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          blogs.push({ ...doc.data(), id: doc.id });
+        });
+        console.log(blogs);
+        for (let i = 0; i < blogs.length; i++) {
+          userImage = blogs[i].owner_pp;
+          blogCategory = blogs[i].blog_categ;
+          blogDate = blogs[i].blog_date;
+          blogDetail = blogs[i].blog_details;
+          userName = blogs[i].blog_owner;
+          blogTitle = blogs[i].blog_title;
+        }
+      });
+    }, 1500);
+  });
 </script>
 
 <main>
@@ -69,7 +69,7 @@
             class="flex max-w-xl flex-col items-start justify-between border-2 border-black p-3 rounded-md"
           >
             <span class="hidden">{blogCategory}</span>
-            <div class="mb-5">
+            <div class="mb-5 hidden">
               <img
                 src={blog.blog_img}
                 alt=""

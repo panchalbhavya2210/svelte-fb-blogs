@@ -1,10 +1,10 @@
 <script>
-  import Blogcreator from "./blogcreator.svelte";
+  import Blogs from "./blogs.svelte";
   import "./global.css";
 </script>
 
-<main class="relative top-16 -z-10">
-  <Blogcreator />
+<main class="relative top-16">
+  <Blogs />
 </main>
 
 <!-- <script>

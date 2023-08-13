@@ -18,6 +18,6 @@
   const getDb = getDatabase(app);
 </script>
 
-<main class="relative top-10">
+<main>
   <input type="text" name="" id="" />
 </main>
