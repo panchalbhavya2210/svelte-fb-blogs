@@ -198,25 +198,26 @@
       <a
         href="/"
         class="  block rounded-md px-3 py-2 text-base font-medium aria"
-        aria-current={$page.url.pathname === "/" ? "page" : undefined}>Home</a
+        aria-current={$page.url.pathname === "/" ? "page" : undefined}
+        on:click={() => (stateNav = !stateNav)}>Home</a
       >
       <a
         href="/Auth"
         aria-current={$page.url.pathname === "/Auth" ? "page" : undefined}
         class="text-black hover:bg-indigo-200 block rounded-md px-3 py-2 text-base font-medium aria"
-        >Sign Up</a
+        on:click={() => (stateNav = !stateNav)}>Sign Up</a
       >
       <a
         href="/Login"
         class="text-black hover:bg-indigo-200 block rounded-md px-3 py-2 text-base font-medium aria"
         aria-current={$page.url.pathname === "/Login" ? "page" : undefined}
-        >Login</a
+        on:click={() => (stateNav = !stateNav)}>Login</a
       >
       <a
         href="/Creator"
         class="text-black hover:bg-indigo-200 block rounded-md px-3 py-2 text-base font-medium aria"
         aria-current={$page.url.pathname === "/Creator" ? "page" : undefined}
-        >Create Blog</a
+        on:click={() => (stateNav = !stateNav)}>Create Blog</a
       >
     </div>
   </div>

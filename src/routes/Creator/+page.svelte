@@ -55,23 +55,23 @@
   let files;
   let blogImageUrl;
 
-  let progress = 10;
+  let stateOfBlog;
 
   function runFileUpload() {
+    if (files != undefined) {
+      alert("file selected");
+    } else {
+      alert("please select any image to upload");
+    }
     const stRef = sRef(storageFile, `images/${files[0].name}` + files[0]);
     const uploadTask = uploadBytesResumable(stRef, files[0]);
+
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        switch (snapshot.state) {
-          case "paused":
-            break;
-          case "running":
-            break;
-        }
+      (snapshot) => {},
+      (error) => {
+        alert(error.message);
       },
-      (error) => {},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           let userId = auth.currentUser.uid;
@@ -92,6 +92,7 @@
       }
     );
   }
+  console.log(stateOfBlog);
   function readDb() {}
 </script>
 
