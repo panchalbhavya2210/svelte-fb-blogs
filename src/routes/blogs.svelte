@@ -12,6 +12,8 @@
   // let blogImage;
   // let blogOwner;
   let blogTitle;
+  import { marked } from "marked";
+
   let blogs = [];
 
   const firebaseConfig = {
@@ -55,7 +57,7 @@
   let modalUserName;
   let modalBlogTitle;
   let modalBlogImage;
-  let modalBlogSummary;
+  let modalBlogSummary = "";
   let modalBlogDate;
   let modalBlogCat;
   let blogShower;
@@ -76,13 +78,14 @@
 </script>
 
 <main>
+  <h1>Size</h1>
   <div
     class="blogPopUp h-screen w-screen z-50 flex justify-center mx-auto backdrop-blur-sm p-3 fixed top-0 {blogShower
       ? 'block'
       : 'hidden'}"
   >
     <div
-      class="subContainer w-11/12 bg-white shadow-lg m-5 rounded-lg border-solid border-2 border-black overflow-y-scroll relative sm:overflow-y-hidden top-0"
+      class="subContainer w-11/12 bg-white shadow-lg m-5 rounded-lg border-solid border-2 border-black overflow-y-scroll relative top-0"
     >
       <div class="ownerDet mt-2 flex h-20 items-center">
         <div class="imageCont">
@@ -111,8 +114,8 @@
         />
       </div>
 
-      <div class="blogSummary p-5">
-        {modalBlogSummary}
+      <div class="p-6">
+        {@html marked(modalBlogSummary)}
       </div>
     </div>
   </div>
@@ -210,3 +213,9 @@
     </div>
   </div>
 </main>
+
+<style>
+  /* .no-tailwind {
+    all: unset;
+  } */
+</style>

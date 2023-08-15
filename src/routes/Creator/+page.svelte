@@ -53,6 +53,7 @@
   let profileName;
   let blogSummary;
   let files;
+  let blogDetails;
   let blogImageUrl;
 
   let stateOfBlog;
@@ -86,14 +87,28 @@
               blog_img: downloadURL,
               blog_owner: profileName,
               blog_title: blogTitle,
+              blog_details: blogDetails,
             });
           });
         });
       }
     );
   }
-  console.log(stateOfBlog);
-  function readDb() {}
+
+  function runHeader() {
+    blogDetails += "<h1></h1>";
+  }
+
+  function runLink() {
+    blogDetails += "<a href=''>Hello</a>";
+  }
+
+  function runListOrdered() {
+    blogDetails +=
+      "<ol style='text-gray-100'> <li>Insert Your Text Here</li> </ol>";
+  }
+  function runListUnordered() {}
+  function runCode() {}
 </script>
 
 <main class="relative top-10">
@@ -129,6 +144,40 @@
               col="1000"
               bind:value={blogSummary}
               class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+        <div>
+          <label
+            for="username"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >Blog Details</label
+          >
+          <div class="mt-2">
+            <div class="addStyling z-50 w-96 bg-gray-200 rounded-s-sm">
+              <div class="iconsCont">
+                <button on:click={runHeader}>H</button>
+              </div>
+              <div class="iconsCont">
+                <button on:click={runListOrdered}>List</button>
+              </div>
+              <div class="iconsCont">
+                <button on:click={runListUnordered}>List Ul</button>
+              </div>
+              <div class="iconsCont">
+                <button on:click={runLink}>Link</button>
+              </div>
+              <div class="iconsCont">
+                <button on:click={runCode}>Code</button>
+              </div>
+            </div>
+            <textarea
+              id="username"
+              name="username"
+              required
+              rows="10"
+              bind:value={blogDetails}
+              class="relative block w-full rounded-md border-0 py-1.5 px-2 overflow-hidden flex justify-center text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
