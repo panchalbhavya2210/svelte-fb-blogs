@@ -2,7 +2,6 @@
   import "./global.css";
   import { onMount } from "svelte";
   import { initializeApp } from "firebase/app";
-  import { getAuth } from "firebase/auth";
   import { getFirestore, collection, getDocs } from "firebase/firestore";
   let userName;
   let userImage;
@@ -27,14 +26,12 @@
   };
   // if (getApps().length == 0) {
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
   const authFirestore = getFirestore(app);
 
   let loader;
 
   onMount(() => {
     setTimeout(() => {
-      const uid = auth.currentUser.uid;
       const refFirestore = collection(authFirestore, "blogs");
       getDocs(refFirestore).then((snapshot) => {
         loader = !loader;
