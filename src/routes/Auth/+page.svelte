@@ -45,7 +45,6 @@
   function authUser() {
     // e.preventDefault();
     state = !state;
-    console.log(state);
     btn.disabled = true;
     createUserWithEmailAndPassword(auth, bindEmailVal, bindEmailPass)
       .then(() => {
@@ -68,7 +67,6 @@
         onValue(dataBaseReader, (snapshot) => {
           const data = snapshot.val();
 
-          console.log(data.userUrl);
           let dataUser = data.userUrl;
           compLoad(dataUser);
           btn.disabled = false;
@@ -82,7 +80,6 @@
         setTimeout(() => {
           alertState = !alertState;
         }, 3000);
-        console.log(state);
         btn.disabled = false;
       });
   }

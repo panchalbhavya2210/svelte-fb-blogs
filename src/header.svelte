@@ -1,7 +1,7 @@
 <script>
   import { page } from "$app/stores";
   import { initializeApp } from "firebase/app";
-  import { getAuth } from "firebase/auth";
+  import { getAuth, signOut } from "firebase/auth";
 
   import { onMount } from "svelte";
   import { getDatabase, ref, get } from "firebase/database";
@@ -39,6 +39,16 @@
   }
   function stateChangerNav() {
     stateNav = !stateNav;
+  }
+  let successState;
+  function signOutUser() {
+    signOut(auth).then(() => {
+      successState = !successState;
+
+      setTimeout(() => {
+        successState = !successState;
+      }, 3000);
+    });
   }
 </script>
 
@@ -166,19 +176,11 @@
             tabindex="-1"
           >
             <!-- Active: "bg-gray-100", Not Active: "" -->
-            <a
-              href="/myprofile"
-              class="block px-4 py-2 text-sm text-gray-700 aria hover:bg-indigo-200"
-              role="menuitem"
-              tabindex="-1"
-              id="user-menu-item-0">Your Profile</a
-            >
-            <a
-              href="a.c"
-              class="block px-4 py-2 text-sm text-gray-700 aria hover:bg-indigo-200"
-              role="menuitem"
-              tabindex="-1"
-              id="user-menu-item-2">Sign out</a
+
+            <button
+              class="block px-4 py-2 w-48 text-sm text-gray-700 aria hover:bg-indigo-200"
+              id="user-menu-item-2"
+              on:click={signOutUser}>Sign out</button
             >
           </div>
         </div>
@@ -220,6 +222,14 @@
         on:click={() => (stateNav = !stateNav)}>Create Blog</a
       >
     </div>
+  </div>
+  <div
+    class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-green-100 shadow-lg fixed bottom-0 dark:text-green-900 transition {successState
+      ? 'translate-y-0 opacity-100'
+      : 'translate-y-36 opacity-0'}"
+    role="alert"
+  >
+    <span class="font-medium">Success!</span> Logged Out.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   </div>
 </nav>
 

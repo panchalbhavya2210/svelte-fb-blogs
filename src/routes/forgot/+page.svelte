@@ -34,7 +34,6 @@
       .catch((err) => {
         state = !state;
         errCode = err.code;
-        console.log(err);
         alertState = !alertState;
         setTimeout(() => {
           alertState = !alertState;

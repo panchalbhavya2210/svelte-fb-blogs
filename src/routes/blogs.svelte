@@ -75,7 +75,6 @@
 </script>
 
 <main>
-  <h1>Size</h1>
   <div
     class="blogPopUp h-screen w-screen z-50 flex justify-center mx-auto backdrop-blur-sm p-3 fixed top-0 {blogShower
       ? 'block'
@@ -89,7 +88,7 @@
           <img src={modalUserimage} alt="" class="rounded-full w-12 h-12 m-3" />
         </div>
         <div class="ownerDetail">
-          <h1 class="font-bold">{modalUserName}</h1>
+          <h2 class="font-bold">{modalUserName}</h2>
           <p class="text-gray-700">{modalBlogDate}</p>
         </div>
 
