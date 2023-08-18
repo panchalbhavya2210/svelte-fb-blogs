@@ -2,14 +2,18 @@
   import "./global.css";
   import { onMount } from "svelte";
   import { initializeApp } from "firebase/app";
-  import { getFirestore, collection, getDocs } from "firebase/firestore";
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    updateDoc,
+    doc,
+  } from "firebase/firestore";
   let userName;
   let userImage;
   let blogDetail;
   let blogDate;
   let blogCategory;
-  // let blogImage;
-  // let blogOwner;
   let blogTitle;
   import { marked } from "marked";
 
@@ -24,10 +28,8 @@
     appId: import.meta.env.VITE_APID,
     measurementId: import.meta.env.VITE_MID,
   };
-  // if (getApps().length == 0) {
   const app = initializeApp(firebaseConfig);
   const authFirestore = getFirestore(app);
-
   let loader;
 
   onMount(() => {
@@ -58,6 +60,7 @@
   let modalBlogDate;
   let modalBlogCat;
   let blogShower;
+  let modalViewCount;
   function handlePriceSelection(blog) {
     blogShower = !blogShower;
     modalUserimage = blog.owner_pp;
@@ -67,6 +70,15 @@
     modalBlogSummary = blog.blog_details;
     modalBlogDate = blog.blog_date;
     modalBlogCat = blog.blog_categ;
+    modalViewCount = blog.view_count;
+    // View Count
+    let plusView = modalViewCount + 1;
+    const refFirestore = doc(authFirestore, "blogs", blog.id);
+    updateDoc(refFirestore, {
+      view_count: plusView,
+    }).then(() => {
+      console.log("viewd success");
+    });
   }
 
   function closeModal() {

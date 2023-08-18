@@ -175,8 +175,15 @@
             aria-labelledby="user-menu-button"
             tabindex="-1"
           >
-            <!-- Active: "bg-gray-100", Not Active: "" -->
-
+            <a href="/MyProfile" rel="noopener noreferrer">
+              <button
+                class="block px-4 py-2 w-48 text-sm text-gray-700 aria hover:bg-indigo-200"
+                id="user-menu-item-2"
+                on:click={stateChanger}
+              >
+                My Profile
+              </button>
+            </a>
             <button
               class="block px-4 py-2 w-48 text-sm text-gray-700 aria hover:bg-indigo-200"
               id="user-menu-item-2"

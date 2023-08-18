@@ -26,6 +26,7 @@
   // Add a new document in collection "cities"
 
   import "../global.css";
+  import { use } from "marked";
 
   let state;
   let alertState;
@@ -74,7 +75,6 @@
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             if (auth.currentUser == null) {
               alert("Blog Will Be Created Anonymously");
-
               addDoc(collection(authFirestore, "blogs"), {
                 owner_pp: "https://ui-avatars.com/api/?name=AnonyMous",
                 blog_categ: blog_category,
@@ -86,7 +86,6 @@
               })
                 .then(() => {
                   successState = !successState;
-
                   setTimeout(() => {
                     successState = !successState;
                   }, 3000);
@@ -103,6 +102,15 @@
               get(ref(getDb, userId)).then((data) => {
                 profileImage = data.val().userUrl;
                 profileName = data.val().userName;
+                addDoc(collection(authFirestore, userId), {
+                  owner_pp: profileImage,
+                  blog_categ: blog_category,
+                  blog_date: fullFormation,
+                  blog_details: blogSummary,
+                  blog_img: downloadURL,
+                  blog_owner: profileName,
+                  blog_title: blogTitle,
+                });
                 addDoc(collection(authFirestore, "blogs"), {
                   owner_pp: profileImage,
                   blog_categ: blog_category,
@@ -114,7 +122,6 @@
                 })
                   .then(() => {
                     successState = !successState;
-
                     setTimeout(() => {
                       successState = !successState;
                     }, 3000);
