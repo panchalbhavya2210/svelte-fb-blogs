@@ -37,7 +37,6 @@
       const refFirestore = collection(authFirestore, "blogs");
       getDocs(refFirestore).then((snapshot) => {
         loader = !loader;
-
         snapshot.docs.forEach((doc) => {
           blogs.push({ ...doc.data(), id: doc.id });
         });

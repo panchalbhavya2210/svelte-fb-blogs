@@ -54,6 +54,7 @@
   let profileName;
   let blogSummary;
   let files;
+  let view_count = 0;
 
   let stateOfBlog;
 
@@ -83,6 +84,7 @@
                 blog_img: downloadURL,
                 blog_owner: "Unknown User",
                 blog_title: blogTitle,
+                view_count: view_count,
               })
                 .then(() => {
                   successState = !successState;
@@ -98,7 +100,6 @@
                 });
             } else {
               let userId = auth.currentUser.uid;
-
               get(ref(getDb, userId)).then((data) => {
                 profileImage = data.val().userUrl;
                 profileName = data.val().userName;
@@ -110,28 +111,33 @@
                   blog_img: downloadURL,
                   blog_owner: profileName,
                   blog_title: blogTitle,
-                });
-                addDoc(collection(authFirestore, "blogs"), {
-                  owner_pp: profileImage,
-                  blog_categ: blog_category,
-                  blog_date: fullFormation,
-                  blog_details: blogSummary,
-                  blog_img: downloadURL,
-                  blog_owner: profileName,
-                  blog_title: blogTitle,
-                })
-                  .then(() => {
-                    successState = !successState;
-                    setTimeout(() => {
-                      successState = !successState;
-                    }, 3000);
-                    stateOfBlog = !stateOfBlog;
+                  view_count: view_count,
+                }).then((snapshot) => {
+                  let uniqueKey = snapshot._key.path.segments[1];
+
+                  setDoc(doc(authFirestore, "blogs/", uniqueKey), {
+                    owner_pp: profileImage,
+                    blog_categ: blog_category,
+                    blog_date: fullFormation,
+                    blog_details: blogSummary,
+                    blog_img: downloadURL,
+                    blog_owner: profileName,
+                    blog_title: blogTitle,
+                    view_count: view_count,
                   })
-                  .catch((err) => {
-                    alertState = !alertState;
-                    stateOfBlog = !stateOfBlog;
-                    alert(err.message);
-                  });
+                    .then(() => {
+                      successState = !successState;
+                      setTimeout(() => {
+                        successState = !successState;
+                      }, 3000);
+                      stateOfBlog = !stateOfBlog;
+                    })
+                    .catch((err) => {
+                      alertState = !alertState;
+                      stateOfBlog = !stateOfBlog;
+                      alert(err.message);
+                    });
+                });
               });
             }
           });
