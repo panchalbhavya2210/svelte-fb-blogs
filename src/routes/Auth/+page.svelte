@@ -68,7 +68,6 @@
           const data = snapshot.val();
 
           let dataUser = data.userUrl;
-          compLoad(dataUser);
           btn.disabled = false;
         });
       })
