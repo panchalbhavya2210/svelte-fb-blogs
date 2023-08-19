@@ -199,10 +199,11 @@
                 class="object-cover h-72 w-full rounded-md"
               />
             </div>
+
+            <time datetime="2020-03-16" class="text-gray-500 text-xs"
+              >{blog.blog_date}</time
+            >
             <div class="flex items-center gap-x-4 text-xs">
-              <time datetime="2020-03-16" class="text-gray-500"
-                >{blog.blog_date}</time
-              >
               <div
                 class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
               >

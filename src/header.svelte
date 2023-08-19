@@ -29,7 +29,7 @@
   onMount(() => {
     setTimeout(() => {
       readDb();
-    }, 1900);
+    }, 2100);
   });
   let state;
   let stateNav;
