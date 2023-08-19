@@ -114,15 +114,13 @@
       stateOfUpdate = !stateOfUpdate;
     });
   }
-
+  let deleteState;
   function deleteMyBlog(blog) {
     const auth = getAuth(app);
     let userId = auth.currentUser.uid;
-    deleteDoc(doc(authFirestore, `${userId}/${blog.id}`)).then(() => {
-      console.log("deleted");
-    });
+    deleteDoc(doc(authFirestore, `${userId}/${blog.id}`)).then(() => {});
     deleteDoc(doc(authFirestore, `blogs/${blog.id}`)).then(() => {
-      console.log("deleted");
+      deleteState = !deleteState;
     });
   }
 </script>
@@ -448,6 +446,16 @@
               </div>
             </article>
           {/each}
+        </div>
+      </div>
+      <div class="relative">
+        <div
+          class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-red-100 shadow-lg dark:text-red-900 transition fixed bottom-0 {deleteState
+            ? 'translate-y-0 opacity-100'
+            : 'translate-y-36 opacity-0'}"
+          role="alert"
+        >
+          <span class="font-medium">Success!</span> Your blog is deleted. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       </div>
     </div>
