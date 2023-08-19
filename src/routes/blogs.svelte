@@ -1,6 +1,8 @@
 <script>
   import "./global.css";
   import { onMount } from "svelte";
+  import { getAuth } from "firebase/auth";
+
   import { initializeApp } from "firebase/app";
   import {
     getFirestore,
@@ -31,6 +33,7 @@
   const app = initializeApp(firebaseConfig);
   const authFirestore = getFirestore(app);
   let loader;
+  let isEdited;
 
   onMount(() => {
     setTimeout(() => {
@@ -75,9 +78,14 @@
     const refFirestore = doc(authFirestore, "blogs", blog.id);
     updateDoc(refFirestore, {
       view_count: plusView,
-    }).then(() => {
-      console.log("viewd success");
-    });
+    }).then(() => {});
+    const auth = getAuth(app);
+
+    let userId = auth.currentUser.uid;
+    const refFirestoreFor = doc(authFirestore, `${userId}/${blog.id}`);
+    updateDoc(refFirestoreFor, {
+      view_count: plusView,
+    }).then(() => {});
   }
 
   function closeModal() {
@@ -87,12 +95,12 @@
 
 <main>
   <div
-    class="blogPopUp h-screen w-screen z-50 flex justify-center mx-auto backdrop-blur-sm p-3 fixed top-0 {blogShower
+    class="blogPopUp h-screen w-screen z-50 mx-auto backdrop-blur-sm fixed top-0 {blogShower
       ? 'block'
       : 'hidden'}"
   >
     <div
-      class="subContainer w-11/12 bg-white shadow-lg m-5 rounded-lg border-solid border-2 border-black overflow-y-scroll relative top-0"
+      class="subContainer w-full h-full bg-white shadow-lg rounded-lg overflow-y-scroll relative top-0"
     >
       <div class="ownerDet mt-2 flex h-20 items-center">
         <div class="imageCont">
@@ -104,7 +112,26 @@
         </div>
 
         <div class="closeBtn absolute right-10">
-          <button on:click={closeModal}>Close</button>
+          <button on:click={closeModal} class="bg-gray-200 p-3 rounded-full"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-minimize"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M15 19v-2a2 2 0 0 1 2 -2h2" />
+              <path d="M15 5v2a2 2 0 0 0 2 2h2" />
+              <path d="M5 15h2a2 2 0 0 1 2 2v2" />
+              <path d="M5 9h2a2 2 0 0 0 2 -2v-2" />
+            </svg></button
+          >
         </div>
       </div>
 
@@ -117,7 +144,7 @@
           src={modalBlogImage}
           alt=""
           srcset=""
-          class="w-80 h-80 rounded-md"
+          class="w-full h-full rounded-md"
         />
       </div>
 
@@ -162,25 +189,53 @@
       >
         {#each blogs as blog}
           <article
-            class="flex max-w-xl flex-col items-start justify-between border-2 border-black p-3 rounded-md"
+            class="flex max-w-xl flex-col items-start justify-between shadow-lg p-3 rounded-md"
           >
             <span class="hidden">{blogCategory}</span>
-            <div class="mb-5">
+            <div class="mb-5 w-full">
               <img
                 src={blog.blog_img}
                 alt=""
-                class="object-fill h-72 w-96 rounded-md"
+                class="object-cover h-72 w-full rounded-md"
               />
             </div>
             <div class="flex items-center gap-x-4 text-xs">
               <time datetime="2020-03-16" class="text-gray-500"
                 >{blog.blog_date}</time
               >
-              <a
-                href="#"
+              <div
                 class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                >{blog.blog_categ}</a
               >
+                {blog.blog_categ}
+              </div>
+              <div
+                class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+              >
+                {blog.isEdited ? "Edited" : "Not Edited"}
+              </div>
+              <div
+                class="relative z-10 flex items-center rounded-full bg-gray-200 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon icon-tabler icon-tabler-eye"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                  <path
+                    d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"
+                  />
+                </svg>
+                <div class="m-1">{blog.view_count}</div>
+              </div>
             </div>
             <div class="group relative">
               <h3
@@ -195,7 +250,7 @@
                 {blog.blog_details}
               </p>
             </div>
-            <div class="relative mt-8 flex items-center gap-x-4">
+            <div class="relative mt-8 flex items-center gap-x-4 w-full">
               <img
                 src={blog.owner_pp}
                 alt=""
@@ -208,10 +263,27 @@
                 </p>
               </div>
               <button
-                class="absolute left-44 w-24 bg-gray-200 pt-1 pb-1 pr-1 pl-1 font-bolder rounded-sm text-sm"
+                class="absolute right-3 p-2 rounded-full bg-gray-200 text-sm"
                 on:click={() => handlePriceSelection(blog)}
               >
-                View Blog
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon icon-tabler icon-tabler-maximize"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
+                  <path d="M4 16v2a2 2 0 0 0 2 2h2" />
+                  <path d="M16 4h2a2 2 0 0 1 2 2v2" />
+                  <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
+                </svg>
               </button>
             </div>
           </article>

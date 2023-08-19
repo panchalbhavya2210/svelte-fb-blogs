@@ -15,7 +15,6 @@
     setDoc,
     collection,
   } from "firebase/firestore";
-  import { onMount } from "svelte";
   let currentDate = new Date();
 
   let month = currentDate.getMonth() + 1;
@@ -23,12 +22,9 @@
   let year = currentDate.getFullYear();
 
   let fullFormation = date + "/" + month + "/" + year;
-  // Add a new document in collection "cities"
 
   import "../global.css";
-  import { use } from "marked";
 
-  let state;
   let alertState;
   let successState;
 
@@ -41,7 +37,6 @@
     appId: import.meta.env.VITE_APID,
     measurementId: import.meta.env.VITE_MID,
   };
-  // if (getApps().length == 0) {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const getDb = getDatabase(app);
@@ -55,12 +50,12 @@
   let blogSummary;
   let files;
   let view_count = 0;
+  let isEdited;
 
   let stateOfBlog;
 
   function runFileUpload() {
     if (files != undefined) {
-      alert("file selected");
       stateOfBlog = !stateOfBlog;
 
       const stRef = sRef(storageFile, `images/${files[0].name}` + files[0]);
@@ -85,6 +80,7 @@
                 blog_owner: "Unknown User",
                 blog_title: blogTitle,
                 view_count: view_count,
+                isEdited: false,
               })
                 .then(() => {
                   successState = !successState;
@@ -112,6 +108,7 @@
                   blog_owner: profileName,
                   blog_title: blogTitle,
                   view_count: view_count,
+                  isEdited: false,
                 }).then((snapshot) => {
                   let uniqueKey = snapshot._key.path.segments[1];
 
@@ -124,6 +121,7 @@
                     blog_owner: profileName,
                     blog_title: blogTitle,
                     view_count: view_count,
+                    isEdited: false,
                   })
                     .then(() => {
                       successState = !successState;

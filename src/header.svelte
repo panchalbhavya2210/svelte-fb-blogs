@@ -15,7 +15,6 @@
     appId: import.meta.env.VITE_APID,
     measurementId: import.meta.env.VITE_MID,
   };
-  // if (getApps().length == 0) {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const getDb = getDatabase(app);

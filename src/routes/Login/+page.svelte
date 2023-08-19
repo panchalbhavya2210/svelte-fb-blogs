@@ -1,5 +1,5 @@
 <script>
-  import { initializeApp, getApps } from "firebase/app";
+  import { initializeApp } from "firebase/app";
   import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
   import "../global.css";
 
