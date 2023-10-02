@@ -148,7 +148,7 @@
         />
       </div>
 
-      <div class="p-6">
+      <div class="p-6 liststyle">
         {@html marked(modalBlogSummary)}
       </div>
     </div>

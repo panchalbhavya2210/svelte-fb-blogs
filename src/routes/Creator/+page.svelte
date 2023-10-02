@@ -23,9 +23,20 @@
         "bold",
         "italic",
         "heading",
+        "strikethrough",
         "code",
+        "link",
         "|",
+        "unordered-list",
+        "ordered-list",
         "quote",
+        "image",
+        "horizontal-rule",
+        "preview",
+        "guide",
+        "|",
+        "undo",
+        "redo",
         "upload-image",
       ],
       uploadImage: true,
@@ -33,8 +44,24 @@
     });
   });
 
-  function imageUpload() {
+  function imageUpload(image) {
     alert(1);
+
+    const stRef = sRef(storageFile, `images/${image.name}` + image[0]);
+    const uploadTask = uploadBytesResumable(stRef, image[0]);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        alert(error.message);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          mde.value(mde.value() + `![](${downloadURL})`);
+        });
+      }
+    );
   }
 
   let currentDate = new Date();

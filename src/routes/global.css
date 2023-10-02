@@ -9,4 +9,8 @@
   h2 {
     @apply text-xl;
   }
+  ul,
+  ol {
+    list-style: revert;
+  }
 }

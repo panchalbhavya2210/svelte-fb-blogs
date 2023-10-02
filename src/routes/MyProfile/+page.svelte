@@ -46,6 +46,31 @@
   let blogCategory;
   let loader;
   let stateOfUpdate;
+  let mde;
+  onMount(() => {
+    mde = new EasyMDE({
+      toolbar: [
+        "bold",
+        "italic",
+        "heading",
+        "strikethrough",
+        "code",
+        "link",
+        "|",
+        "unordered-list",
+        "ordered-list",
+        "quote",
+        "image",
+        "horizontal-rule",
+        "preview",
+        "guide",
+        "|",
+        "undo",
+        "redo",
+      ],
+      maxHeight: "200px",
+    });
+  });
 
   onMount(() => {
     setTimeout(() => {
@@ -84,10 +109,16 @@
   let blogId;
   function handleBlogSelection(blog) {
     blogTitle = blog.blog_title;
+    mde.value(blog.blog_details);
     blogSummaryUpd = blog.blog_details;
     blogCategoryUpd = blog.blog_categ;
     editorState = !editorState;
     blogId = blog.id;
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 
   function handleUpdate() {
@@ -125,15 +156,22 @@
   }
 </script>
 
+<svelte:head>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/easymde/dist/easymde.min.css"
+  />
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+</svelte:head>
 <main class="relative top-16">
   <div class="editorForm">
     <div
-      class="formOfEditor fixed w-full z-20 top-20 {editorState
+      class="formOfEditor absolute w-full z-20 top-20 {editorState
         ? 'block'
         : 'hidden'}"
     >
       <div
-        class="relative m-auto sm:mx-auto sm:w-full sm:max-w-sm overflow-hidden z-20 bg-white p-5 shadow-lg rounded-sm"
+        class="relative m-auto sm:mx-auto sm:w-full sm:max-w-sm overflow z-20 bg-white p-5 shadow-lg rounded-sm"
       >
         <form class="space-y-3">
           <div>
@@ -163,8 +201,7 @@
                 name="username"
                 required
                 bind:value={blogSummaryUpd}
-                col="1000"
-                class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                class="h-32 block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
