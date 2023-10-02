@@ -19,6 +19,7 @@
 	"type": "module",
 	"dependencies": {
 		"dotenv": "^16.3.1",
+		"easymde": "^2.18.0",
 		"firebase": "^10.1.0",
 		"marked": "^7.0.3"
 	}

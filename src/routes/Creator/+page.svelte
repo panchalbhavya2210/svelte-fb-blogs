@@ -15,6 +15,28 @@
     setDoc,
     collection,
   } from "firebase/firestore";
+
+  let mde;
+  onMount(() => {
+    mde = new EasyMDE({
+      toolbar: [
+        "bold",
+        "italic",
+        "heading",
+        "code",
+        "|",
+        "quote",
+        "upload-image",
+      ],
+      uploadImage: true,
+      imageUploadFunction: imageUpload,
+    });
+  });
+
+  function imageUpload() {
+    alert(1);
+  }
+
   let currentDate = new Date();
 
   let month = currentDate.getMonth() + 1;
@@ -24,6 +46,7 @@
   let fullFormation = date + "/" + month + "/" + year;
 
   import "../global.css";
+  import { onMount } from "svelte";
 
   let alertState;
   let successState;
@@ -75,7 +98,7 @@
                 owner_pp: "https://ui-avatars.com/api/?name=AnonyMous",
                 blog_categ: blog_category,
                 blog_date: fullFormation,
-                blog_details: blogSummary,
+                blog_details: mde.value(),
                 blog_img: downloadURL,
                 blog_owner: "Unknown User",
                 blog_title: blogTitle,
@@ -103,7 +126,7 @@
                   owner_pp: profileImage,
                   blog_categ: blog_category,
                   blog_date: fullFormation,
-                  blog_details: blogSummary,
+                  blog_details: mde.value(),
                   blog_img: downloadURL,
                   blog_owner: profileName,
                   blog_title: blogTitle,
@@ -116,7 +139,7 @@
                     owner_pp: profileImage,
                     blog_categ: blog_category,
                     blog_date: fullFormation,
-                    blog_details: blogSummary,
+                    blog_details: mde.value(),
                     blog_img: downloadURL,
                     blog_owner: profileName,
                     blog_title: blogTitle,
@@ -146,6 +169,14 @@
     }
   }
 </script>
+
+<svelte:head>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/easymde/dist/easymde.min.css"
+  />
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+</svelte:head>
 
 <main class="relative top-10">
   <div class="flex min-h flex-col justify-center px-6 py-12 lg:px-8">
@@ -178,8 +209,8 @@
               name="username"
               required
               col="1000"
-              bind:value={blogSummary}
-              class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              bind:value={mde}
+              class="absolute w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
