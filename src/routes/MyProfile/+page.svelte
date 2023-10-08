@@ -4,6 +4,7 @@
   import { initializeApp } from "firebase/app";
   import { getAuth } from "firebase/auth";
   import { getDatabase, get, ref } from "firebase/database";
+  import { fade, fly } from "svelte/transition";
   import {
     getFirestore,
     collection,
@@ -164,7 +165,7 @@
   <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 </svelte:head>
 <main class="relative top-16">
-  <div class="editorForm">
+  <div class="editorForm" transition:fly={{ y: -200 }}>
     <div
       class="formOfEditor absolute w-full z-20 top-20 {editorState
         ? 'block'

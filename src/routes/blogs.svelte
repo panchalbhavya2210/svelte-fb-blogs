@@ -1,6 +1,7 @@
 <script>
   import "./global.css";
   import { onMount } from "svelte";
+  import { fade, fly } from "svelte/transition";
   import { getAuth } from "firebase/auth";
 
   import { initializeApp } from "firebase/app";
@@ -98,6 +99,7 @@
     class="blogPopUp h-screen w-screen z-50 mx-auto backdrop-blur-sm fixed top-0 {blogShower
       ? 'block'
       : 'hidden'}"
+    transition:fly={{ y: -200 }}
   >
     <div
       class="subContainer w-full h-full bg-white shadow-lg rounded-lg overflow-y-scroll relative top-0"

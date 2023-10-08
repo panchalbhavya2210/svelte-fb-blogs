@@ -1,6 +1,7 @@
 <script>
   import { initializeApp } from "firebase/app";
   import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+  import { fade, fly } from "svelte/transition";
   import "../global.css";
 
   let state;
@@ -48,7 +49,10 @@
 </script>
 
 <main class="relative top-10">
-  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div
+    class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8"
+    transition:fly={{ y: -200 }}
+  >
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img
         class="mx-auto h-10 w-auto"
