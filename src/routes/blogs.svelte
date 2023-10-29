@@ -52,6 +52,7 @@
           userName = blogs[i].blog_owner;
           blogTitle = blogs[i].blog_title;
         }
+console.log(blogs)
       });
     }, 1500);
   });
